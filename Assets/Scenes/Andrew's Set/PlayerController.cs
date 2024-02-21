@@ -47,14 +47,11 @@ public class NewBehaviourScript : MonoBehaviour
         allowedJumpCount--;
         if (allowedJumpCount > 0)
         {
-        if (collision.onGround)
-        {
         rb.velocity = Vector2.up * jumpVelocity;
         if (rb.velocity.y < 0)
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fall - 1) * Time.deltaTime;
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
             rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1) * Time.deltaTime;
-        }
         // else if (collision.onWall)
         // {
             //implement wall jump function
