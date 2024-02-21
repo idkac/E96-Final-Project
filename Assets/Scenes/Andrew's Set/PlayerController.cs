@@ -23,6 +23,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     // Update is called once per frame
+    // movement for wasd and wall slide check
     void Update()
     {
         float x = Input.GetAxis("Horizontal");
@@ -40,6 +41,7 @@ public class NewBehaviourScript : MonoBehaviour
             allowedJumpCount = maxJumpCount;
     }
 
+//updated jump command to make it look nicer
     void OnJump()
     {
         allowedJumpCount--;

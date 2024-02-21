@@ -16,6 +16,7 @@ public class Collision : MonoBehaviour
         
     }
 
+//check collision of player on ground/wall
     // Update is called once per frame
     void Update()
     {
@@ -24,6 +25,7 @@ public class Collision : MonoBehaviour
          || Physics2D.OverlapCircle((Vector2)transform.position + left, collisionRadius, groundLayer);
     }
 
+//draw hitboxes for collision check
     void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
