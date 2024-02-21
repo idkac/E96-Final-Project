@@ -804,7 +804,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &2001164000
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -866,7 +866,8 @@ MonoBehaviour:
   fall: 2.5
   jump: 2
   jumpVelocity: 5
-  slideSpeed: 2
+  slideSpeed: 1
+  maxJumpCount: 2
 --- !u!114 &2001164002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,9 +916,9 @@ MonoBehaviour:
   onGround: 0
   onWall: 0
   collisionRadius: 0.25
-  bottom: {x: 0, y: -0.5}
-  left: {x: -0.5, y: 0}
-  right: {x: 0.5, y: 0}
+  bottom: {x: 0, y: -0.32}
+  left: {x: -0.32, y: 0}
+  right: {x: 0.32, y: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
