@@ -34,10 +34,10 @@ public class NewBehaviourScript : MonoBehaviour
 
         rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
 
-        if(collision.onWall && !collision.onGround)
+        if((onWallLeft|| onWallRight) && !onGround)
             wallSlide();
 
-        if(collision.onGround)
+        if(onGround)
             allowedJumpCount = maxJumpCount;
     }
 
