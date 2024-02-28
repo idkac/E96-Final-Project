@@ -34,10 +34,10 @@ public class NewBehaviourScript : MonoBehaviour
 
         rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
 
-        if((onWallLeft|| onWallRight) && !onGround)
+        if(collision.onWall && !collision.onGround)
             wallSlide();
 
-        if(onGround)
+        if(collision.onGround)
             allowedJumpCount = maxJumpCount;
     }
 
@@ -45,6 +45,7 @@ public class NewBehaviourScript : MonoBehaviour
     void OnJump()
     {
         allowedJumpCount--;
+        Debug.Log(allowedJumpCount);
         if (allowedJumpCount > 0)
         {
         rb.velocity = Vector2.up * jumpVelocity;
@@ -62,8 +63,12 @@ public class NewBehaviourScript : MonoBehaviour
     void wallSlide()
     {
         if (rb.velocity.y >= 0)
+        {
+            onWallLeft = false;
+            onWallRight = false;
             return;
-        if((onWallRight || onWallLeft) && !onGround)
+        }
+        if(collision.onWall && !collision.onGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
         }
@@ -74,12 +79,21 @@ public class NewBehaviourScript : MonoBehaviour
     {   
         foreach (ContactPoint2D contact in tempcollision.contacts)
         {
-            if (Vector2.Dot(Vector2.up, contact.normal) >= 0.9)
-                onGround = true;
-            else if (Vector2.Dot(Vector2.left, contact.normal) >= 0.9)
+            if (Vector2.Dot(Vector2.left, contact.normal) >= 0.9)
+            {
                 onWallRight = true;
+                onWallLeft = false;
+            }
             else if (Vector2.Dot(Vector2.right, contact.normal) >= 0.9)
+            {
                 onWallLeft = true;
+                onWallRight = false;
+            }
+            else
+            {
+                onWallLeft = false;
+                onWallRight = false;
+            }
         }
     }
 }
