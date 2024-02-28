@@ -52,9 +52,9 @@ public class NewBehaviourScript : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fall - 1) * Time.deltaTime;
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
             rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1) * Time.deltaTime;
-        // else if (collision.onWall)
+        // else if (onWallLeft || onWallRight)
         // {
-            //implement wall jump function
+
         // }
         }
     }
@@ -63,7 +63,7 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (rb.velocity.y >= 0)
             return;
-        if(collision.onWall && !collision.onGround)
+        if((onWallRight || onWallLeft) && !onGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
         }
