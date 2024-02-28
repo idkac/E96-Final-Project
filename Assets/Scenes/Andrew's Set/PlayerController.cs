@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
@@ -55,7 +56,11 @@ public class NewBehaviourScript : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1) * Time.deltaTime;
         // else if (onWallLeft || onWallRight)
         // {
-
+        //     if (onWallLeft)
+        //     {
+        //         rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1.5f) * Time.deltaTime;
+        //         rb.velocity += new Vector2(speed, rb.velocity.y);
+        //     }
         // }
         }
     }
