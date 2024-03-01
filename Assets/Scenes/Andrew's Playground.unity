@@ -871,6 +871,9 @@ MonoBehaviour:
   onWallRight: 0
   onWallLeft: 0
   onGround: 0
+  hasDashed: 0
+  dashSpeed: 6
+  dashDuration: 0.3
 --- !u!114 &2001164002
 MonoBehaviour:
   m_ObjectHideFlags: 0

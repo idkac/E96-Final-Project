@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using Unity.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -15,8 +15,16 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] float slideSpeed = 0.2f;
     [SerializeField] int maxJumpCount = 2;
 
-    public bool onWallRight, onWallLeft, onGround;
+
+    public bool onWallRight, onWallLeft, onGround, hasDashed;
     private int allowedJumpCount;
+    private struct Frameinputs
+    {
+        public float x, y;
+        public int rawX, rawY;
+    }
+
+    private Frameinputs inputs;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,17 +37,21 @@ public class NewBehaviourScript : MonoBehaviour
     // movement for wasd and wall slide check
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-        Vector2 direction = new Vector2(x,y);
-
-        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+        inputs.x = Input.GetAxis("Horizontal");
+        inputs.y = Input.GetAxis("Vertical");
+        inputs.rawX = (int) Input.GetAxisRaw("Horizontal");
+        inputs.rawY = (int) Input.GetAxisRaw("Vertical");
+        
+        rb.velocity = new Vector2(inputs.x * speed, rb.velocity.y);
 
         if(collision.onWall && !collision.onGround)
             wallSlide();
 
         if(collision.onGround)
+        {
             allowedJumpCount = maxJumpCount;
+            hasDashed = false;
+        }
     }
 
 //updated jump command to make it look nicer
@@ -54,14 +66,6 @@ public class NewBehaviourScript : MonoBehaviour
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fall - 1) * Time.deltaTime;
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
             rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1) * Time.deltaTime;
-        // else if (onWallLeft || onWallRight)
-        // {
-        //     if (onWallLeft)
-        //     {
-        //         rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1.5f) * Time.deltaTime;
-        //         rb.velocity += new Vector2(speed, rb.velocity.y);
-        //     }
-        // }
         }
     }
 
@@ -69,8 +73,6 @@ public class NewBehaviourScript : MonoBehaviour
     {
         if (rb.velocity.y >= 0)
         {
-            onWallLeft = false;
-            onWallRight = false;
             return;
         }
         if(collision.onWall && !collision.onGround)
@@ -100,5 +102,32 @@ public class NewBehaviourScript : MonoBehaviour
                 onWallRight = false;
             }
         }
+    }
+
+    private Vector2 dashDirection;
+    public float dashSpeed = 10f;
+    public float dashDuration = 0.2f;
+
+    void OnDash() 
+    {
+        Debug.Log("this is running");
+        if (!hasDashed)
+        {
+            dashDirection = new Vector2(inputs.x * speed, 0);
+            StartCoroutine(Dash());
+        }
+    }
+
+    IEnumerator Dash()
+    {
+        hasDashed = true;
+        float startTime = Time.time;
+        while (Time.time < startTime + dashDuration)
+        {
+            rb.AddForce(dashDirection * dashSpeed);
+            yield return null;
+        }
+
+        rb.velocity = Vector2.zero;
     }
 }
