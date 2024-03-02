@@ -2,12 +2,14 @@ using System.Collections;
 using Unity.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Unity.VisualScripting;
 using UnityEngine.Scripting.APIUpdating;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Collision collision;
+
     [SerializeField] float speed = 2f;
     [SerializeField] float fall = 2.5f;
     [SerializeField] float jump = 2f;
@@ -43,6 +45,8 @@ public class NewBehaviourScript : MonoBehaviour
         inputs.rawY = (int) Input.GetAxisRaw("Vertical");
         
         rb.velocity = new Vector2(inputs.x * speed, rb.velocity.y);
+
+
 
         if(collision.onWall && !collision.onGround)
             wallSlide();
