@@ -6,22 +6,20 @@ using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class Anim_Script : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    
 
     private Animator anim;
     private SpriteRenderer sp;
     private Transform ParentBody;
     private Rigidbody2D rb;
+    private Collision feet;
+    RigidbodyConstraints2D originalConstraints;
 
 
     private Vector2 inputVector;
     private bool facing_left;
-    private bool on_Ground = true;
     private float weapon_use;
 
 
@@ -36,13 +34,19 @@ public class Anim_Script : MonoBehaviour
         anim = GetComponent<Animator>();
         ParentBody = transform.parent;
         rb = ParentBody.GetComponent<Rigidbody2D>();
-    }
+        feet = ParentBody.GetComponent<Collision>();
+        originalConstraints = rb.constraints;
+    } 
 
-    // Update is called once per frame
-    void Update()
+
+// Update is called once per frame
+void Update()
     {
         sp.flipX = facing_left;
-        anim.SetBool("isWalking", Mathf.Abs(rb.velocity.x) > 0.5f && on_Ground == true);
+
+        
+        anim.SetBool("isWalking", Mathf.Abs(rb.velocity.x) > 0.5f && feet.onGround == true && lock_Aim() == true);
+
 
         //Debug.Log(rb.velocity);
 
@@ -59,6 +63,10 @@ public class Anim_Script : MonoBehaviour
             }*/
         }
         idle();
+        lock_Aim();
+
+
+      
     }
 
 
@@ -70,12 +78,7 @@ public class Anim_Script : MonoBehaviour
             facing_left = false;
         if (inputVector.x == -1)
             facing_left = true;
-
         
-
-
-        //Debug.Log(inputVector);
-       // Debug.Log(facing_left);
     }
 
     void idle()
@@ -145,8 +148,35 @@ public class Anim_Script : MonoBehaviour
     }
 
 
+    bool lock_Aim()
+    {
+       
+        if(Input.GetMouseButtonDown(1) && feet.onGround == true)
+        {
+            Debug.Log("Held");
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+            
+            return true;
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            Debug.Log("Released");
+            rb.constraints = originalConstraints;
+            return false;
+        }
+        else
+            return false;
+   
+    }
+    void OnDash()
+    {
+        if (feet.onGround == false)
+        {
+            Debug.Log("DASH");
+            anim.Play("Dash");
+        }
+    }
 
 
-
-
+   
 }
