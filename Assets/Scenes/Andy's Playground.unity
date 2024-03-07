@@ -979,7 +979,8 @@ MonoBehaviour:
   onWallLeft: 0
   onGround: 0
   hasDashed: 0
-  dashSpeed: 10
+  allowedJumpCount: 0
+  dashSpeed: 25
   dashDuration: 0.5
 --- !u!1 &1079702448
 GameObject:

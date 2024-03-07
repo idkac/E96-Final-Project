@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,16 +14,16 @@ public class Anim_Script : MonoBehaviour
 
     private Animator anim;
     private SpriteRenderer sp;
-    private Transform ParentBody;
+    private Transform parentBody;
     private Rigidbody2D rb;
     private Collision feet;
     RigidbodyConstraints2D originalConstraints;
 
 
-    private Vector2 inputVector;
-    private bool facing_left;
-    private float weapon_use;
-
+    Vector2 inputVector;
+    bool facing_left, hasDashed, locked, wallSlideR, wallSlideL;
+    float jumpCount;
+    float maxJump;
 
     enum Inventory { Knife, Sword, Gun, Handgun, Shotgun };
     Inventory equipped = 0;
@@ -32,10 +34,11 @@ public class Anim_Script : MonoBehaviour
     {
         sp = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-        ParentBody = transform.parent;
-        rb = ParentBody.GetComponent<Rigidbody2D>();
-        feet = ParentBody.GetComponent<Collision>();
+        parentBody = transform.parent;
+        rb = parentBody.GetComponent<Rigidbody2D>();
+        feet = parentBody.GetComponent<Collision>();
         originalConstraints = rb.constraints;
+        maxJump = parentBody.GetComponent<NewBehaviourScript>().maxJumpCount;
     } 
 
 
@@ -44,15 +47,16 @@ void Update()
     {
         sp.flipX = facing_left;
 
-        
-        anim.SetBool("isWalking", Mathf.Abs(rb.velocity.x) > 0.5f && feet.onGround == true && lock_Aim() == true);
+        //grabbing variables from other script <NewBehaviourScript> (PlayerController), that update overtime
+        jumpCount = parentBody.GetComponent<NewBehaviourScript>().allowedJumpCount;
+        hasDashed = parentBody.GetComponent<NewBehaviourScript>().hasDashed;
+        wallSlideR = parentBody.GetComponent<NewBehaviourScript>().onWallRight;
+        wallSlideL = parentBody.GetComponent<NewBehaviourScript>().onWallLeft;
 
 
-        //Debug.Log(rb.velocity);
-
+        anim.SetBool("isWalking", Mathf.Abs(rb.velocity.x) > 0.5f && feet.onGround == true && locked == false);
 
         //weapon_selection
-
         if (Input.inputString != "")
         {
 
@@ -63,10 +67,8 @@ void Update()
             }*/
         }
         idle();
-        lock_Aim();
+        lockAim();
 
-
-      
     }
 
 
@@ -78,7 +80,12 @@ void Update()
             facing_left = false;
         if (inputVector.x == -1)
             facing_left = true;
-        
+        if (locked == false)
+        {
+            equipped = Inventory.Knife;
+            anim.SetInteger("Idle_State", 1);
+        }
+            
     }
 
     void idle()
@@ -108,9 +115,6 @@ void Update()
                 //Debug.Log(equipped);
                 break;
             default:
-                equipped = Inventory.Knife;
-                anim.SetInteger("Idle_State", 1);
-                //Debug.Log(equipped);
                 break;
 
         }
@@ -148,20 +152,37 @@ void Update()
     }
 
 
-    bool lock_Aim()
+    bool lockAim()
     {
        
         if(Input.GetMouseButtonDown(1) && feet.onGround == true)
         {
             Debug.Log("Held");
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
-            
+            switch (equipped)
+            {
+                case Inventory.Sword:
+                    anim.Play("Sword_Idle"); break;
+                 
+                case Inventory.Handgun:
+                    anim.Play("Handgun_Aim");break;
+                case Inventory.Shotgun:
+                    anim.Play("Shotgun_Aim");break;
+                default:
+                    anim.Play("Idle");
+                    break;
+
+            }
+
+
+            locked = true;
             return true;
         }
-        if (Input.GetMouseButtonUp(1))
+        else if (Input.GetMouseButtonUp(1))
         {
             Debug.Log("Released");
             rb.constraints = originalConstraints;
+            locked = false;
             return false;
         }
         else
