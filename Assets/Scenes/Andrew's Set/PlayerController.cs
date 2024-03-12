@@ -15,11 +15,11 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] float jump = 2f;
     [SerializeField] float jumpVelocity = 3f;
     [SerializeField] float slideSpeed = 0.2f;
-    [SerializeField] int maxJumpCount = 2;
+    [SerializeField] public int maxJumpCount = 2;
 
 
     public bool onWallRight, onWallLeft, onGround, hasDashed;
-    private int allowedJumpCount;
+    public int allowedJumpCount;
     private struct Frameinputs
     {
         public float x, y;
@@ -73,16 +73,18 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    void wallSlide()
+    bool wallSlide()
     {
         if (rb.velocity.y >= 0)
         {
-            return;
+            return false;
         }
         if(collision.onWall && !collision.onGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
+            return true;
         }
+        return false;
     }
 
 //other way to get collision (to be implemented)
@@ -114,6 +116,8 @@ public class NewBehaviourScript : MonoBehaviour
 
     void OnDash() 
     {
+        if (collision.onGround == true)
+            return;
         Debug.Log("this is running");
         if (!hasDashed)
         {
