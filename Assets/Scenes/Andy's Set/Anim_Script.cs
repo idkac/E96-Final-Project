@@ -23,6 +23,11 @@ public class Anim_Script : MonoBehaviour
     Inventory equipped = 0;
     int number = 1;
 
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -142,13 +147,21 @@ void Update()
             {
                 case Inventory.Sword:
                     if (facingLeft)
+                    {
                         anim.Play("Sword_Attack_L", -1, 0f);
+                        audioManager.PlaySFX(audioManager.slash);
+                    }
                     else
+                    {
                         anim.Play("Sword_Attack_R", -1, 0f);
+                        audioManager.PlaySFX(audioManager.slash);
+                    }
                     break;
                 case Inventory.Handgun:
+                    audioManager.PlaySFX(audioManager.gun1);
                     anim.Play("Handgun_Fire"); break;
                 case Inventory.Shotgun:
+                audioManager.PlaySFX(audioManager.gun2);
                     anim.Play("Shotgun_Fire"); break;
                 default:
                     break;

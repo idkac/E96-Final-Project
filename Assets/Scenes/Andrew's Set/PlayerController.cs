@@ -24,6 +24,12 @@ public class NewBehaviourScript : MonoBehaviour
         public int rawX, rawY;
     }
 
+    AudioManager audioManager;
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private Frameinputs inputs;
     // Start is called before the first frame update
     void Start()
@@ -66,11 +72,12 @@ public class NewBehaviourScript : MonoBehaviour
         Debug.Log(allowedJumpCount);
         if (allowedJumpCount > 0)
         {
-        rb.velocity = Vector2.up * jumpVelocity;
-        if (rb.velocity.y < 0)
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (fall - 1) * Time.deltaTime;
-        else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1) * Time.deltaTime;
+            audioManager.PlaySFX(audioManager.jump);
+            rb.velocity = Vector2.up * jumpVelocity;
+            if (rb.velocity.y < 0)
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (fall - 1) * Time.deltaTime;
+            else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+                rb.velocity += Vector2.up * Physics2D.gravity.y * (jump - 1) * Time.deltaTime;
         }
     }
 
@@ -134,6 +141,7 @@ public class NewBehaviourScript : MonoBehaviour
 
     IEnumerator Dash()
     {
+        audioManager.PlaySFX(audioManager.dash);
         hasDashed = true;
         float startTime = Time.time;
         while (Time.time < startTime + dashDuration)
@@ -158,6 +166,7 @@ public class NewBehaviourScript : MonoBehaviour
     public void deductHP(float hp)
     {
         health -= hp;
+        audioManager.PlaySFX(audioManager.damage);
         if(health < 0)
         {
             health = 0;
