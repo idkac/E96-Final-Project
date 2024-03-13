@@ -184,4 +184,10 @@ public class NewBehaviourScript : MonoBehaviour
     {
         menu.SetActive(true);
     }
+
+    public void OnFall()
+    {
+        setHP(0);
+        OnDeath();
+    }
 }
