@@ -12,6 +12,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip background;
     public AudioClip death;
     public AudioClip damage;
+    public AudioClip gun1;
+    public AudioClip gun2;
+    public AudioClip jump;
 
     private void Start()
     {
@@ -19,4 +22,8 @@ public class AudioManager : MonoBehaviour
         musicSource.Play();
     }
 
+    public void PlaySFX(AudioClip clip)
+    {
+        SFXSource.PlayOneShot(clip);
+    }
 }
