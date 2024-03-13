@@ -17408,6 +17408,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93fe872735df384c9238e24a8f6337a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  facingLeft: 0
+  hasDashed: 0
+  locked: 0
+  wallSlideR: 0
+  wallSlideL: 0
+  isFalling: 0
 --- !u!95 &1697667291
 Animator:
   serializedVersion: 5
@@ -17548,14 +17554,15 @@ MonoBehaviour:
   fall: 2.5
   jump: 2
   jumpVelocity: 5
-  slideSpeed: 0.2
+  slideSpeed: 1.7
   maxJumpCount: 2
   onWallRight: 0
   onWallLeft: 0
   onGround: 0
   hasDashed: 0
-  dashSpeed: 10
-  dashDuration: 0.2
+  allowedJumpCount: 0
+  dashSpeed: 25
+  dashDuration: 0.5
 --- !u!114 &1743183963
 MonoBehaviour:
   m_ObjectHideFlags: 0

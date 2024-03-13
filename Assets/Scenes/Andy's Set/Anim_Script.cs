@@ -21,7 +21,7 @@ public class Anim_Script : MonoBehaviour
 
 
     Vector2 inputVector;
-    bool facing_left, hasDashed, locked, wallSlideR, wallSlideL;
+    public bool facingLeft, hasDashed, locked, wallSlideR, wallSlideL, isFalling;
     float jumpCount;
     float maxJump;
 
@@ -45,7 +45,7 @@ public class Anim_Script : MonoBehaviour
 // Update is called once per frame
 void Update()
     {
-        sp.flipX = facing_left;
+        sp.flipX = facingLeft;
 
         //grabbing variables from other script <NewBehaviourScript> (PlayerController), that update overtime
         jumpCount = parentBody.GetComponent<NewBehaviourScript>().allowedJumpCount;
@@ -68,7 +68,14 @@ void Update()
         }
         idle();
         lockAim();
+        slideAnim();
+        falling();
 
+        anim.SetBool("isFalling", isFalling);
+        anim.SetBool("onGround", feet.onGround && !wallSlideL && !wallSlideR);
+
+
+       
     }
 
 
@@ -77,15 +84,19 @@ void Update()
 
         inputVector = val.Get<Vector2>();
         if (inputVector.x == 1)
-            facing_left = false;
+            facingLeft = false;
         if (inputVector.x == -1)
-            facing_left = true;
+            facingLeft = true;
         if (locked == false)
         {
             equipped = Inventory.Knife;
             anim.SetInteger("Idle_State", 1);
         }
-            
+
+
+
+
+       
     }
 
     void idle()
@@ -120,6 +131,13 @@ void Update()
         }
 
     }
+
+    void slideAnim()
+    {
+        anim.SetBool("isSlidingR", wallSlideR && !facingLeft && !feet.onGround);
+        anim.SetBool("isSlidingL", wallSlideL && facingLeft && !feet.onGround);
+
+    }
     
     void OnFire()
     {
@@ -129,7 +147,11 @@ void Update()
             switch (equipped)
             {
                 case Inventory.Sword:
-                    anim.Play("Sword_Attack"); break;
+                    if (facingLeft)
+                        anim.Play("Sword_Attack_L", -1, 0f);
+                    else
+                        anim.Play("Sword_Attack_R", -1, 0f);
+                    break;
                 case Inventory.Handgun:
                     anim.Play("Handgun_Fire"); break;
                 case Inventory.Shotgun:
@@ -151,7 +173,15 @@ void Update()
         }
     }
 
-
+    void falling()
+    {
+        if (rb.velocity.y < -3f)
+        {
+            isFalling = true;
+        }
+        else
+            isFalling = false;
+    }
     bool lockAim()
     {
        
@@ -194,10 +224,17 @@ void Update()
         if (feet.onGround == false)
         {
             Debug.Log("DASH");
+            if(!hasDashed)
             anim.Play("Dash");
         }
     }
 
+
+    void OnJump()
+    {
+        if (jumpCount > 1)
+            anim.Play("Jump");
+    }
 
    
 }
