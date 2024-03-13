@@ -10,6 +10,13 @@ public class EndGameScript : MonoBehaviour
         if (trig.gameObject.tag == "Player")
         {
             exitMenu.SetActive(true);
+            // Application.Quit();
         }
+    }
+
+    public void quit()
+    {
+        Debug.Log("quit");
+        Application.Quit();
     }
 }
