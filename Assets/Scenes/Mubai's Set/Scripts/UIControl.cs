@@ -24,6 +24,8 @@ public class UIControl : MonoBehaviour
     public Image Skill3;
     public Image Skill4;
 
+    public NewBehaviourScript player;
+
     void Start()
     {
         numberOfHearts = hearts.Length;
@@ -35,7 +37,7 @@ public class UIControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // currentHP = PlayerHP/100*numberOfHearts; // import the hp from player control and update every frame, convert hp from 100 scale to number of hearts
+        currentHP = player.getHP()/100*numberOfHearts; // import the hp from player control and update every frame, convert hp from 100 scale to number of hearts
         // currentEnergy = PlayerEneger // import energy from player control
         // currentWeapon = PlayerWeapon // import weapon from player control
 

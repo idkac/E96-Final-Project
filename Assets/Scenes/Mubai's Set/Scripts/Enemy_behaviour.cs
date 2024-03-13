@@ -12,6 +12,7 @@ public class Enemy_behaviour : MonoBehaviour
     public float timer;
     public Transform leftLimit;
     public Transform rightLimit;
+    public NewBehaviourScript player;
 
     private RaycastHit2D hit;
     private Transform target;
@@ -21,6 +22,7 @@ public class Enemy_behaviour : MonoBehaviour
     private bool inRange; 
     private bool cooling; 
     private float intTimer;
+
 
     void Awake()
     {
@@ -69,7 +71,7 @@ public class Enemy_behaviour : MonoBehaviour
         {
             target = trig.transform;
             inRange = true;
-            Flip(); 
+            Flip();
         }
     }
 
@@ -109,7 +111,6 @@ public class Enemy_behaviour : MonoBehaviour
     {
         timer = intTimer; 
         attackMode = true;
-
         anim.SetBool("canWalk", false);
         anim.SetBool("Attack", true);
     }
@@ -180,10 +181,14 @@ public class Enemy_behaviour : MonoBehaviour
         }
         else
         {
-            Debug.Log("Twist");
             rotation.y = 0;
         }
 
         transform.eulerAngles = rotation;
+    }
+
+    public bool checkHaveAttacked()
+    {
+        return attackMode;
     }
 }

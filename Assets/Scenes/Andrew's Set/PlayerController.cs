@@ -16,7 +16,7 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] float jumpVelocity = 3f;
     [SerializeField] float slideSpeed = 0.2f;
     [SerializeField] public int maxJumpCount = 2;
-
+    private float health = 100f;
 
     public bool onWallRight, onWallLeft, onGround, hasDashed;
     bool facingLeft;
@@ -147,5 +147,24 @@ public class NewBehaviourScript : MonoBehaviour
         }
 
         rb.velocity = Vector2.zero;
+    }
+
+    public float getHP()
+    {
+        return health;
+    }
+
+    public void setHP(float hp)
+    {
+        health = hp;
+    }
+
+    public void deductHP(float hp)
+    {
+        health -= hp;
+        if(health < 0)
+        {
+            health = 0;
+        }
     }
 }
