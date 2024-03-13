@@ -19,7 +19,9 @@ public class NewBehaviourScript : MonoBehaviour
 
 
     public bool onWallRight, onWallLeft, onGround, hasDashed;
+    bool facingLeft;
     public int allowedJumpCount;
+    GameObject child;
     private struct Frameinputs
     {
         public float x, y;
@@ -33,6 +35,7 @@ public class NewBehaviourScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collision = GetComponent<Collision>();
         allowedJumpCount = maxJumpCount;
+        child = gameObject.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -43,9 +46,11 @@ public class NewBehaviourScript : MonoBehaviour
         inputs.y = Input.GetAxis("Vertical");
         inputs.rawX = (int) Input.GetAxisRaw("Horizontal");
         inputs.rawY = (int) Input.GetAxisRaw("Vertical");
+
+        //child Object obtaining data
+        facingLeft = child.gameObject.GetComponent<Anim_Script>().facingLeft;
         
         rb.velocity = new Vector2(inputs.x * speed, rb.velocity.y);
-
 
 
         if(collision.onWall && !collision.onGround)
@@ -79,7 +84,12 @@ public class NewBehaviourScript : MonoBehaviour
         {
             return false;
         }
-        if(collision.onWall && !collision.onGround)
+        if(onWallLeft && !collision.onGround && facingLeft)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
+            return true;
+        }
+        if (onWallRight && !collision.onGround && !facingLeft)
         {
             rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
             return true;
