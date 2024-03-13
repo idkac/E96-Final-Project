@@ -27,6 +27,7 @@ public class Weapon : MonoBehaviour
     Transform Queen;
     Transform King;
 
+    public UIControl ui;
 
 
     void Start()
@@ -43,9 +44,12 @@ public class Weapon : MonoBehaviour
 
         onGround = Queen.GetComponent<Collision>().onGround;
         facingLeft = King.GetComponent<Anim_Script>().facingLeft;
-        
 
-        Debug.Log("Equipped: " + King.GetComponent<Anim_Script>().equipped);
+
+        // Debug.Log("Equipped: " + King.GetComponent<Anim_Script>().equipped);
+        String weaponInUse = King.GetComponent<Anim_Script>().equipped.ToString();
+        ui.setWeapon(weaponInUse);
+
 
         Handgun();
         ShotGun();

@@ -26,7 +26,7 @@ public class UIControl : MonoBehaviour
         numberOfHearts = hearts.Length;
         maxHP = (float)numberOfHearts;
         currentHP = (float)numberOfHearts;
-        currentWeapon = "knife";
+        currentWeapon = "Knife";
     }
 
     // Update is called once per frame
@@ -65,11 +65,11 @@ public class UIControl : MonoBehaviour
         energyBar.fillAmount = currentEnergy / maxEnergy;
 
         // update weapon
-        if(currentWeapon == "sword")
+        if(currentWeapon == "Sword")
         {
             Weapon.sprite = sword;
         }
-        else if(currentWeapon == "knife")
+        else if(currentWeapon == "Knife")
         {
             Weapon.sprite = knife;
         }
@@ -78,5 +78,10 @@ public class UIControl : MonoBehaviour
             //default weapon
             Weapon.sprite = knife;
         }
+    }
+
+    public void setWeapon(string weapon)
+    {
+        currentWeapon = weapon;
     }
 }

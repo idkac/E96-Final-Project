@@ -22,7 +22,22 @@ public class Enemy_behaviour : MonoBehaviour
     private bool inRange; 
     private bool cooling; 
     private float intTimer;
+    public float health = 100;
 
+    void Start()
+    {
+        health = 100;
+    }
+
+    public void deductHP(float hp)
+    {
+        health -= hp;
+    }
+
+    void EnemyDie()
+    {
+        gameObject.SetActive(false);
+    }
 
     void Awake()
     {
@@ -33,35 +48,42 @@ public class Enemy_behaviour : MonoBehaviour
 
     void Update()
     {
-        if (!attackMode)
+        if (health <= 0)
         {
-            Move();
+            EnemyDie();
         }
+        else
+        {
+            if (!attackMode)
+            {
+                Move();
+            }
 
-        if (!InsideOfLimits() && !inRange && !anim.GetCurrentAnimatorStateInfo(0).IsName("Enemy_attack"))
-        {
-            SelectTarget();
-        }
+            if (!InsideOfLimits() && !inRange && !anim.GetCurrentAnimatorStateInfo(0).IsName("Enemy_attack"))
+            {
+                SelectTarget();
+            }
 
-        if (inRange)
-        {
-            hit = Physics2D.Raycast(rayCast.position, transform.right, rayCastLength, raycastMask);
-            RaycastDebugger();
-        }
+            if (inRange)
+            {
+                hit = Physics2D.Raycast(rayCast.position, transform.right, rayCastLength, raycastMask);
+                RaycastDebugger();
+            }
 
-        //When Player is detected
-        if (hit.collider != null)
-        {
-            EnemyLogic();
-        }
-        else if (hit.collider == null)
-        {
-            inRange = false;
-        }
+            //When Player is detected
+            if (hit.collider != null)
+            {
+                EnemyLogic();
+            }
+            else if (hit.collider == null)
+            {
+                inRange = false;
+            }
 
-        if (inRange == false)
-        {
-            StopAttack();
+            if (inRange == false)
+            {
+                StopAttack();
+            }
         }
     }
 
@@ -187,8 +209,12 @@ public class Enemy_behaviour : MonoBehaviour
         transform.eulerAngles = rotation;
     }
 
-    public bool checkHaveAttacked()
+    public bool checkInAttacked()
     {
-        return attackMode;
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Enemy_attack") &&
+            anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            return true;
+        else
+            return false;
     }
 }

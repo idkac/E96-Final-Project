@@ -22,7 +22,7 @@ public class EnemyAttack : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D trig)
     {
-        if (trig.gameObject.tag == "Player" && enemy.checkHaveAttacked())
+        if (trig.gameObject.tag == "Player" && enemy.checkInAttacked())
         {
             player.deductHP(weaponDamage);
         }
