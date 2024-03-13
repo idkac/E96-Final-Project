@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/MainMenu.cs.meta
 guid: 101d9c5a1f3a44e9c970b0c73bdcc86b
+========
+guid: d8ac5e74422af4a028b2ab40abf4434a
+>>>>>>>> ba63cd27ec32bb1388cf03aa09ca9e0e17996a56:Assets/Scenes/Brendan's Set/Scripts/AudioManager.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

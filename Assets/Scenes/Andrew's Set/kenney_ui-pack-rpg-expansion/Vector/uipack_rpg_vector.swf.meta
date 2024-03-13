@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Andrew's Set/kenney_ui-pack-rpg-expansion/Vector/uipack_rpg_vector.swf.meta
 guid: ac296354c36f144c6b7365d6512a7687
+========
+guid: 9ddfd10d1226ac64d920d6019267f248
+folderAsset: yes
+>>>>>>>> ba63cd27ec32bb1388cf03aa09ca9e0e17996a56:Assets/Audio/Music/Complete Mysterious Forest Game Music Pack/Action Battle Cue 2 @125 BMP Duration 01_00.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

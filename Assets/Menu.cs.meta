@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Menu.cs.meta
 guid: a7f93d18cf868488399935746b64cbbb
+========
+guid: d0bd933747186b843bc033763930d5bc
+>>>>>>>> ba63cd27ec32bb1388cf03aa09ca9e0e17996a56:Assets/Scenes/Mubai's Set/Scripts/Enemy_behaviour.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
