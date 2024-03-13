@@ -6,13 +6,18 @@ public class Anim_Script : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    private Animator anim;
-    private SpriteRenderer sp;
-    private Transform parentBody;
-    private Rigidbody2D rb;
-    private Collision feet;
-    RigidbodyConstraints2D originalConstraints;
+    public Animator anim;
+    public SpriteRenderer sp;
+    public Transform parentBody;
+    public Rigidbody2D rb;
+    public Collision feet;
 
+    //Child Object Components
+    public GameObject child;
+    public BoxCollider2D hitBox;
+
+    RigidbodyConstraints2D originalConstraints;
+    
 
     Vector2 inputVector;
     public bool facingLeft, hasDashed, locked, wallSlideR, wallSlideL, isFalling;
@@ -38,6 +43,8 @@ public class Anim_Script : MonoBehaviour
         feet = parentBody.GetComponent<Collision>();
         originalConstraints = rb.constraints;
         maxJump = parentBody.GetComponent<NewBehaviourScript>().maxJumpCount;
+        child = gameObject.transform.GetChild(0).gameObject;
+        hitBox = child.GetComponent<BoxCollider2D>();
     } 
 
 
@@ -60,10 +67,6 @@ void Update()
         {
 
             bool is_a_number = Int32.TryParse(Input.inputString, out number);
-           /* if (is_a_number && number >= 0 && number < 10)
-            {
-                
-            }*/
         }
         idle();
         lockAim();
@@ -73,6 +76,7 @@ void Update()
         anim.SetBool("isFalling", isFalling);
         anim.SetBool("onGround", feet.onGround && !wallSlideL && !wallSlideR);
 
+        
 
        
     }
@@ -143,6 +147,7 @@ void Update()
         Debug.Log("ATTACKED");
         if(rb.velocity.magnitude < 1f && equipped != Inventory.Knife)
         {
+           
             switch (equipped)
             {
                 case Inventory.Sword:
@@ -166,17 +171,23 @@ void Update()
                 default:
                     break;
             }
+     
 
         }
         else
         {
+
             if(equipped == Inventory.Knife)
             {
                 Debug.Log("SLASH");
 
-                anim.Play("Slash");
+                if (facingLeft)
+                    anim.Play("SlashL");
+                else
+                    anim.Play("SlashR");
+
+                
             }
-            
         }
     }
 
@@ -189,10 +200,10 @@ void Update()
         else
             isFalling = false;
     }
-    bool lockAim()
+    void lockAim()
     {
-       
-        if(Input.GetMouseButtonDown(1) && feet.onGround == true)
+
+        if (Input.GetMouseButtonDown(1) && feet.onGround == true)
         {
             Debug.Log("Held");
             rb.constraints = RigidbodyConstraints2D.FreezePositionX;
@@ -200,11 +211,11 @@ void Update()
             {
                 case Inventory.Sword:
                     anim.Play("Sword_Idle"); break;
-                 
+
                 case Inventory.Handgun:
-                    anim.Play("Handgun_Aim");break;
+                    anim.Play("Handgun_Aim"); break;
                 case Inventory.Shotgun:
-                    anim.Play("Shotgun_Aim");break;
+                    anim.Play("Shotgun_Aim"); break;
                 default:
                     anim.Play("Idle");
                     break;
@@ -213,17 +224,18 @@ void Update()
 
 
             locked = true;
-            return true;
+            return;
         }
         else if (Input.GetMouseButtonUp(1))
         {
             Debug.Log("Released");
             rb.constraints = originalConstraints;
             locked = false;
-            return false;
+            return;
         }
         else
-            return false;
+            locked = true;
+            return;
    
     }
     void OnDash()
