@@ -1,9 +1,5 @@
 using System.Collections;
-using Unity.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using Unity.VisualScripting;
-using UnityEngine.Scripting.APIUpdating;
 
 public class NewBehaviourScript : MonoBehaviour
 {

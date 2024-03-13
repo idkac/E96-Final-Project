@@ -1,10 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Build;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
