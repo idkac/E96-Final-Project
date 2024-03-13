@@ -12,12 +12,14 @@ public class NewBehaviourScript : MonoBehaviour
     [SerializeField] float jumpVelocity = 3f;
     [SerializeField] float slideSpeed = 0.2f;
     [SerializeField] public int maxJumpCount = 2;
-    private float health = 100f;
+    public float health = 100f;
 
     public bool onWallRight, onWallLeft, onGround, hasDashed;
     bool facingLeft;
     public int allowedJumpCount;
     GameObject child;
+    [SerializeField] GameObject menu;
+
     private struct Frameinputs
     {
         public float x, y;
@@ -62,6 +64,11 @@ public class NewBehaviourScript : MonoBehaviour
         {
             allowedJumpCount = maxJumpCount;
             hasDashed = false;
+        }
+
+        if (health <= 0)
+        {
+            OnDeath();
         }
     }
 
@@ -171,5 +178,10 @@ public class NewBehaviourScript : MonoBehaviour
         {
             health = 0;
         }
+    }
+
+    void OnDeath()
+    {
+        menu.SetActive(true);
     }
 }

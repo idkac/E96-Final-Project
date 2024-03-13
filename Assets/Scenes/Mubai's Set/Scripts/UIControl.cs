@@ -19,11 +19,6 @@ public class UIControl : MonoBehaviour
     public Sprite sword; // Alternate sprite
     public string currentWeapon;
 
-    public Image Skill1;
-    public Image Skill2;
-    public Image Skill3;
-    public Image Skill4;
-
     public NewBehaviourScript player;
 
     void Start()
