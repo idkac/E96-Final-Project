@@ -174,7 +174,10 @@ void Update()
             {
                 Debug.Log("SLASH");
 
-                anim.Play("Slash");
+                if (facingLeft)
+                    anim.Play("SlashL");
+                else
+                    anim.Play("SlashR");
             }
             
         }
