@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 public class PlayerAttck : MonoBehaviour
 {
     public Enemy_behaviour[] enemies;
+    [SerializeField] float damage = 35;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,8 @@ public class PlayerAttck : MonoBehaviour
             Match match = Regex.Match(text, pattern);
             string numberString = match.Value;
             int idx = int.Parse(numberString) - 1;
-            enemies[idx].deductHP(50);
+            Debug.Log(idx);
+            enemies[idx].deductHP(damage);
         }
     }
 }

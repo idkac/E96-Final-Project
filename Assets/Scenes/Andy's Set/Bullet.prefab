@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 3357152291766305349}
   - component: {fileID: 4244671342354012998}
   - component: {fileID: 4532993063033376140}
+  - component: {fileID: 7999434023963848761}
   - component: {fileID: 922438713433859439}
   m_Layer: 7
   m_Name: Bullet
-  m_TagString: Untagged
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +128,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 3
+  nextFire: 0
+--- !u!114 &7999434023963848761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044939589548199904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e3bad42d5001f14eba1c69eff5cb07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 0}
+  damage: 15
 --- !u!58 &922438713433859439
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -17,6 +17,8 @@ public class UIControl : MonoBehaviour
     public Image Weapon;
     public Sprite knife; // Default sprite
     public Sprite sword; // Alternate sprite
+    public Sprite handgun;
+    public Sprite shotgun;
     public string currentWeapon;
 
     public NewBehaviourScript player;
@@ -72,6 +74,14 @@ public class UIControl : MonoBehaviour
         else if(currentWeapon == "Knife")
         {
             Weapon.sprite = knife;
+        }
+        else if (currentWeapon == "Handgun" || currentWeapon == "Gun")
+        {
+            Weapon.sprite = handgun;
+        }
+        else if (currentWeapon == "Shotgun")
+        {
+            Weapon.sprite = shotgun;
         }
         else
         {
