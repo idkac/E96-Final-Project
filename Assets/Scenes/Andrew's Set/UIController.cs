@@ -9,6 +9,6 @@ public class UIController : MonoBehaviour
 
     public void MusicVolume()
     {
-        //AudioManager.Instance.MusicVolume(_musicSlider.value);
+        AudioManager.Instance.MusicVolume(_musicSlider.value);
     }
 }
