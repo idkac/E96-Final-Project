@@ -8,7 +8,6 @@ TagManager:
   - wall
   - enemy
   - Audio
-  - bullet
   layers:
   - Default
   - TransparentFX
