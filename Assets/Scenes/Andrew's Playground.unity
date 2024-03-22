@@ -934,7 +934,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Title
+  m_text: Wasteland Wanderer
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -2743,9 +2743,11 @@ MonoBehaviour:
   background: {fileID: 8300000, guid: d0119692c22dfd6419f5b0eb291e7911, type: 3}
   death: {fileID: 8300000, guid: 4f5bc64a69b9741b49c08897fbf40c67, type: 3}
   damage: {fileID: 8300000, guid: 7e23cb852a3fd4e788aca72da6665245, type: 3}
+  slash: {fileID: 0}
   gun1: {fileID: 8300000, guid: b31abebe929a6476a9fdc2ccaa86f89d, type: 3}
   gun2: {fileID: 8300000, guid: e75f6b054523348dfb3b28e2698ddb91, type: 3}
   jump: {fileID: 8300000, guid: 0121a659315624d7a96e98abd2d2a16d, type: 3}
+  dash: {fileID: 0}
 --- !u!4 &1835847751
 Transform:
   m_ObjectHideFlags: 0
@@ -3318,11 +3320,13 @@ MonoBehaviour:
   jumpVelocity: 5
   slideSpeed: 1
   maxJumpCount: 2
+  health: 100
   onWallRight: 0
   onWallLeft: 0
   onGround: 0
   hasDashed: 0
   allowedJumpCount: 0
+  menu: {fileID: 0}
   dashSpeed: 6
   dashDuration: 0.3
 --- !u!114 &2001164002
